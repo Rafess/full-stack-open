@@ -1,0 +1,39 @@
+sequenceDiagram
+    participant user as Usuário
+    participant browser as Navegador
+    participant server as Servidor
+
+    user->>browser: writes a note and clicks submit
+
+    browser->>server: POST /exampleapp/new_note
+    Note right of browser: Sends note content in the form
+
+    activate server
+    Note right of server: creates a note with its content and the date
+    Note right of server:  Add the note to the notes array
+    server-->>browser: HTTP 302 Redirect to /exampleapp/notes
+    deactivate server
+
+    browser->>server: GET /exampleapp/notes
+    activate server
+    server-->>browser:  HTML file
+    deactivate server
+
+    browser->>server: GET /exampleapp/main.css
+    activate server
+    server-->>browser: CSS file
+    deactivate server
+
+    browser->>server: GET /exampleapp/main.js
+    activate server
+    server-->>browser:  JavaScript file
+    deactivate server
+
+    Note right of browser: The browser executes JavaScript and requests the notes
+
+    browser->>server: GET /exampleapp/data.json
+    activate server
+    server-->>browser: JSON with all the notes, including the new one
+    deactivate server
+
+    Note right of browser: The browser rendes the updated list of notes

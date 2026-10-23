@@ -1,0 +1,24 @@
+sequenceDiagram
+    participant user as Usuário
+    participant browser as Navegador
+    participant server as Servidor
+
+    user->>browser: Writes a note
+    user->>browser: Clicks Submit
+
+    Note right of browser: JavaScript intercepts the form dispatch
+    Note right of browser: preventDefault() avoids page reload
+
+    Note right of browser: Create an object with content and date
+    Note right of browser: Adds the note to a local list
+    Note right of browser: Updates the shown notes list
+
+    browser->>server: POST /exampleapp/new_note_spa
+    Note right of browser: Sends the note as JSON
+
+    activate server
+    Note right of server: Add the note to a storage list in the server
+    server-->>browser: Response from the request
+    deactivate server
+
+    Note right of browser: The page remains loaded, without redirecting
